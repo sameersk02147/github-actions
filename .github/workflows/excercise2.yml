@@ -1,8 +1,7 @@
 name: Issues
-issues:
-    types: [opened]
+on: push
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
@@ -19,6 +18,19 @@ jobs:
         run: npm run test
       - name: deploy
         run: npm run deploy
+  lint run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v4.1.7
+      - name: Install Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: install dependencies
+        run: npm ci
+      - name: npm run lint
+        run: npm run lint
       
     
   deploy:
