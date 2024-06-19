@@ -1,0 +1,36 @@
+name: lint deploy
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v4.1.7
+      - name: Install Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: install dependencies
+        run: npm ci
+      - name: npm build
+        run: npm run build 
+      - name: Run Tests
+        run: npm run test:unit
+      
+    
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v4.1.7
+      - name: Install Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: install dependencies
+        run: npm ci
+      - name: run lint
+        run: npm run lint
+      - name: deploy
+        run: echo "deploying"
